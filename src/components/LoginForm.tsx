@@ -25,9 +25,10 @@ const Form = styled.form`
   }
 `;
 
-const Input = styled.input`
+const Input = styled.input<{ error: boolean }>`
   border: none;
-  border-bottom: 1px solid ${COLOR.CRYSTAL_BAY};
+  border-bottom: 1px solid
+    ${({ error }) => (error ? COLOR.SASQUATCH_SOCKS : COLOR.CRYSTAL_BAY)};
   padding: 5px 10px;
   margin: 10px 0px 10px 0px;
   width: 100%;
@@ -48,7 +49,7 @@ const PasswordWrapper = styled.div`
   width: 100%;
 `;
 
-const ShowPassword = styled.i`
+const ShowPassword = styled.span`
   color: ${COLOR.CRYSTAL_BAY};
   position: absolute;
   top: 1rem;
@@ -137,6 +138,7 @@ export const LoginForm: React.FC<any> = () => {
         })}
         type="email"
         placeholder="Email"
+        error={!!errors.email || wrongCreds}
       />
       {errors.email && <span role="alert">{errors.email.message}</span>}
       <PasswordWrapper>
@@ -144,20 +146,16 @@ export const LoginForm: React.FC<any> = () => {
           id="password"
           {...register('password', {
             required: 'required',
-            minLength: {
-              value: 5,
-              message: 'min length is 5',
-            },
           })}
           type={passwordShown ? 'text' : 'password'}
           placeholder="Password"
+          error={!!errors.password || wrongCreds}
         />
         <ShowPassword onClick={togglePasswordVisiblity}>
           <FontAwesomeIcon icon={faEye} />
         </ShowPassword>
-        {errors.password && <span role="alert">{errors.password.message}</span>}
       </PasswordWrapper>
-
+      {errors.password && <span role="alert">{errors.password.message}</span>}
       <LoginButton type="submit">SIGN IN</LoginButton>
     </Form>
   );

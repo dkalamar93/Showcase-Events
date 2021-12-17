@@ -80,6 +80,7 @@ const Dropdown = styled.div`
   font-size: 14px;
   line-height: 24px;
   color: ${COLOR.SERYI_GREY};
+  cursor: pointer;
 `;
 
 const FullName = styled.span`
